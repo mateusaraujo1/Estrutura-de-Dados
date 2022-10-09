@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8 />
+		<title>Árvore-H</title>
+	</head>
+	<body>
+		<canvas id="window" width="800" height="400"></canvas>  
+		<script>
+			function drawLine(xA, yA, xB, yB) {
+				var canvas = document.getElementById('window');
+				var context = canvas.getContext('2d');
+				context.beginPath();
+				context.moveTo(xA,yA);
+				context.lineTo(xB,yB);
+				context.stroke();
+			}
+			
+			function draw(n, len, x, y) {
+				if (n > 0) {
+					var x0 = x - len/2;
+					var x1 = x + len/2;
+					var y0 = y - len/2;
+					var y1 = y + len/2;
+					
+					drawLine(x0, y, x1, y);
+					drawLine(x0, y0, x0, y1);
+					drawLine(x1, y0, x1, y1);
+					
+					draw(n-1, len/2, x0, y0);
+					draw(n-1, len/2, x0, y1);
+					draw(n-1, len/2, x1, y0);
+					draw(n-1, len/2, x1, y1);
+				}
+			}
+			
+			draw(5, 200, 400, 200);
+		</script> 
+	</body>
+</html>
