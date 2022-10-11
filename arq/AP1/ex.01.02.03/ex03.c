@@ -14,8 +14,9 @@ int main() {
 	List_insert(l, 1);
 	List_print(l);
 
+	List_insertAfter(l, 3, 10);
 	List_print(l);
-	
+
 	List_free(l);
 	
 	return 0;

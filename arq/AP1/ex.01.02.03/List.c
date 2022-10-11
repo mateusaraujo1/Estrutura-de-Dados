@@ -247,6 +247,7 @@ void List_insertAfter(List *l, int n1, int n2) {
 	{
 		new = malloc(sizeof(Node));
 		new->value = n2;
+		n = l->first;
 
 		while (n)
 		{
@@ -256,12 +257,12 @@ void List_insertAfter(List *l, int n1, int n2) {
 				{
 					new->next = NULL;
 					n->next = new;
+				} else {
+					new->next = n->next;
+					n->next = new;
 				}
-				
 			}
 			n = n->next;
 		}
-		
 	}
-	
-} 
+}
