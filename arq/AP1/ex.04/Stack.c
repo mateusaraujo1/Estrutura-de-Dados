@@ -130,8 +130,15 @@ int main() {
 }
 */
 
-void Stack_removeCar(Stack *s, Carro *car) {
-	
+void Stack_pushCar(Stack *s, Carro *car) {
+	if (car->action == 'E')
+		{
+			printf("Carro %s entrou\n", car->placa);
+			Stack_push(s, car);
+		}
+	else
+		{
+		printf("Carro %s saiu\n", car->placa);
 		Stack *aux = Stack_alloc(20);
 		while (!Stack_isEmpty(s))
 		{
@@ -151,7 +158,16 @@ void Stack_removeCar(Stack *s, Carro *car) {
 				break;
 			}
 		}
+
+		if (Stack_isEmpty(s)) {
+			printf("...mas ele ja tinha saido\n");
+			while (!Stack_isEmpty(aux))
+				{
+					Stack_push(s, Stack_pop(aux));
+				}
+		}
 		Stack_free(aux);
+		}
 	
 }
 
@@ -174,22 +190,9 @@ int main()
     fclose(f);
 
 	Stack *s = Stack_alloc(20);
-	for (int i = 0; i < 19; i++)
-	{
-		if (car[i].action == 'E')
-		{
-			printf("Carro %s entrou\n", car[i].placa);
-			Stack_push(s, &car[i]);
-		}
-		else
-		{
-			printf("Carro %s saiu\n", car[i].placa);
-			Stack_removeCar(s, &car[i]);
-			//erro atual: se eu coloco 20 no int i, a pilha se esvazia total
-			//motivo: um carro tá saindo duas vezes, tá errado o .txt
-		}
-		
-	}
+	for (int i = 0; i < 28; i++) //controla quantas linhas do arquivo serão exibidas
+		Stack_pushCar(s, &car[i]);
+
 	Stack_print(s, printCar);
     return 0;
 }

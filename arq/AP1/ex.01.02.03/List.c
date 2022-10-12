@@ -177,29 +177,29 @@ List *List_qsort(List *l) {
 }
 
 //questão 01
-void List_unique(List *l, int value) { //depois mudo o nome da var int value pra int n
-	Node *n, *ant = NULL;
+void List_unique(List *l, int n) { //depois mudo o nome da var int value pra int n
+	Node *nor, *ant = NULL;
 	int repet = 0;
 	if (l) {
-		n = l->first;
+		nor = l->first;
 		
-		while (n) {
-			if (n->value == value) {
+		while (nor) {
+			if (nor->value == n) {
 				if (ant == NULL)
 					repet++;
 				else if (repet == 0)
 					repet++;
 				else if (repet > 0)
 				{
-					ant->next = n->next;
+					ant->next = nor->next;
 					repet++;
 					l->length--;
 				}
 			}
-			ant = n;
-			n = n->next;
+			ant = nor;
+			nor = nor->next;
 		}
-		printf("Houve %d repeticoes do numero %d.\n", repet, value);
+		printf("Houve %d repeticoes do numero %d.\n", repet, n);
 	}
 }
 
