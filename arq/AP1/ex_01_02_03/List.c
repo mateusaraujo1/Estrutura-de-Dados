@@ -177,7 +177,7 @@ List *List_qsort(List *l) {
 }
 
 //questão 01
-void List_unique(List *l, int n) { //depois mudo o nome da var int value pra int n
+void List_unique(List *l, int n) {
 	Node *nor, *ant = NULL;
 	int repet = 0;
 	if (l) {

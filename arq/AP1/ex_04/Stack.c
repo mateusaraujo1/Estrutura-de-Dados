@@ -87,7 +87,7 @@ int Stack_length(Stack *s) {
 void Stack_print(Stack *s, void (*print)(void*)) {
 	int i;
 	if (s) {
-		printf("Stack(%d):\n", Stack_length(s));
+		printf("Estacionamento(%d):\n", Stack_length(s));
 		
 		for (i=s->top; i>=0; i--) {
 			print(s->elements[i]);
@@ -165,18 +165,18 @@ int main()
     {
         while (!feof(f))
         {
-            fscanf(f, "%c%s%c", &car[i].action, car[i].placa, &pula_linha);
-            //printf("%c:%s%c", car[i].action, car[i].placa, pula_linha);
-            i++;
+			if (fscanf(f, "%c%s%c", &car[i].action, car[i].placa, &pula_linha) == 3)
+            	i++;	
         }
     }
     fclose(f);
 
 	Stack *s = Stack_alloc(10);
 	Queue *fila = Queue_alloc(20);
-	for (int cont = 0; cont < i; cont++) //controla quanto total de linhas do arquivo que serão exibidas
+	for (int cont = 0; cont <= i; cont++) {//controla quanto total de linhas do arquivo que serão exibidas
 		Stack_pushCar(s, &car[cont], fila);
+		Stack_print(s, printCar);
+		}
 
-	Stack_print(s, printCar);
     return 0;
 }
