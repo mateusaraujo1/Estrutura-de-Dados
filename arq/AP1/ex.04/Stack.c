@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "Stack.h"
+#include "Queue.h"
 
 struct Stack {
 	int size;
@@ -130,12 +131,16 @@ int main() {
 }
 */
 
-void Stack_pushCar(Stack *s, Carro *car) {
-	if (car->action == 'E')
+void Stack_pushCar(Stack *s, Carro *car, Queue *fila) {
+	if (car->action == 'E' && !Stack_isFull(s))
 		{
 			printf("Carro %s entrou\n", car->placa);
 			Stack_push(s, car);
 		}
+	else if (car->action == 'E' && Stack_isFull(s)) {
+		printf("estacionamento cheio, carro %s entrou na fila\n", car->placa);
+		Queue_push(fila, car);
+	}
 	else
 		{
 		printf("Carro %s saiu\n", car->placa);
@@ -166,6 +171,14 @@ void Stack_pushCar(Stack *s, Carro *car) {
 					Stack_push(s, Stack_pop(aux));
 				}
 		}
+
+		if (!Stack_isFull(s) && !Queue_isEmpty(fila))
+		{
+			car = Queue_pop(fila);
+			printf("carro %s saiu da fila e entrou no estacionamento\n", car->placa);
+			Stack_push(s, car);
+		}
+		
 		Stack_free(aux);
 		}
 	
@@ -176,10 +189,10 @@ int main()
     char pula_linha;
     FILE *f = fopen("estacionamento.txt", "r");
     struct Carro car[50];
+    int i = 0;
 
     if (f)
     {
-        int i = 0;
         while (!feof(f))
         {
             fscanf(f, "%c%s%c", &car[i].action, car[i].placa, &pula_linha);
@@ -189,9 +202,10 @@ int main()
     }
     fclose(f);
 
-	Stack *s = Stack_alloc(20);
-	for (int i = 0; i < 28; i++) //controla quantas linhas do arquivo serão exibidas
-		Stack_pushCar(s, &car[i]);
+	Stack *s = Stack_alloc(10);
+	Queue *fila = Queue_alloc(20);
+	for (int cont = 0; cont < i; cont++) //controla quanto total de linhas do arquivo que serão exibidas
+		Stack_pushCar(s, &car[cont], fila);
 
 	Stack_print(s, printCar);
     return 0;
