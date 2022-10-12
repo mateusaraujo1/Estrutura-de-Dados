@@ -101,36 +101,6 @@ void printCar(void *a) {
 	printf("%s", c->placa);
 }
 
-/*
-typedef struct {
-	char nome[20];
-	int mundiais;
-} Time;
-
-void printTime(void *a) {
-	Time *t = (Time*)a;
-	printf("%s %d", t->nome, t->mundiais);
-}
-
-int main() {
-	Time times[] = {{"Sao Paulo",3},
-					{"Corinthians",2},
-					{"Palmeiras",0},
-					{"Flamengo",1}};
-	Stack *s = Stack_alloc(20);
-	
-	Stack_push(s, &times[0]);
-	Stack_push(s, &times[1]);
-	Stack_push(s, &times[2]);
-	Stack_push(s, &times[3]);
-	
-	Stack_print(s, printTime);
-	
-	Stack_free(s);
-	return 0;
-}
-*/
-
 void Stack_pushCar(Stack *s, Carro *car, Queue *fila) {
 	if (car->action == 'E' && !Stack_isFull(s))
 		{

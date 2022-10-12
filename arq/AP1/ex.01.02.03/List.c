@@ -185,20 +185,23 @@ void List_unique(List *l, int n) { //depois mudo o nome da var int value pra int
 		
 		while (nor) {
 			if (nor->value == n) {
-				if (ant == NULL)
+				if (repet == 0){
 					repet++;
-				else if (repet == 0)
-					repet++;
+					ant = nor;
+				}
 				else if (repet > 0)
 				{
 					ant->next = nor->next;
 					repet++;
 					l->length--;
 				}
-			}
+				nor = nor->next;
+			} else {
 			ant = nor;
 			nor = nor->next;
+			}
 		}
+		l->last = ant;
 		printf("Houve %d repeticoes do numero %d.\n", repet, n);
 	}
 }
