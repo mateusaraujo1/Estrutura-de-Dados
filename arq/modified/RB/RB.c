@@ -2,6 +2,7 @@
 /*
  *   Shane Saunders
  */
+#include <stdio.h>
 #include <stdlib.h>
 #include "RB.h"
 
@@ -773,4 +774,52 @@ RB_node *RB_restructure2(RB *t, int tos, RB_node *x,
 	}
 
 	return mid_node;
+}
+
+//#define ANSI_COLOR_RED      "\x1b[31m" //cores em ANSI utilizadas 
+//#define ANSI_COLOR_GRAY     "\e[0;37m"
+
+//depois eu tento mudar a cor do texto do nó ao invés de pôr só a letra 
+
+void RB_print(RB_node *t, void (*print)(void*, RB_colour)) {
+    if (t) {
+        printf("(");
+        print(t->item, t->colour);
+        RB_print(t->left, print);
+        RB_print(t->right, print);
+        printf(") ");
+    }
+    else
+		printf("~ ");
+}
+
+void print(void *a, RB_colour col) {
+    int *n1 = (int*)a;
+	if (col == Red)
+    	printf("%dR ", *n1); // R = red
+	else
+		printf("%dB ", *n1); // B = black
+}
+
+int comp(const void *a, const void *b) {
+	return 1;
+} //temporario
+
+
+int main()
+{
+	RB *r = NULL;
+	r = RB_alloc(comp);
+	int vec[] = {1, 2, 3, 4, 5, 6, 7, 8};
+	RB_insert(r, &vec[0]);
+	RB_insert(r, &vec[1]);
+	RB_insert(r, &vec[2]);
+	RB_insert(r, &vec[3]);
+	RB_insert(r, &vec[4]);
+	RB_insert(r, &vec[5]);
+	RB_insert(r, &vec[6]);
+	RB_insert(r, &vec[7]);
+
+	RB_print(r->root, print);
+	return 0;
 }

@@ -66,4 +66,6 @@ void *RB_delete(RB *t, void *key_item);
  */
 void *RB_delete_min(RB *t);
 
+void RB_print(RB_node *t, void (*print)(void*, RB_colour));
+
 #endif
