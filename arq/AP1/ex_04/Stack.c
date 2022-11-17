@@ -166,7 +166,7 @@ int main()
         while (!feof(f))
         {
 			if (fscanf(f, "%c%s%c", &car[i].action, car[i].placa, &pula_linha) == 3)
-            	i++;	
+            	i++;
         }
     }
     fclose(f);
