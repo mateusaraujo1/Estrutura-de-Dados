@@ -68,4 +68,6 @@ void *RB_delete_min(RB *t);
 
 void RB_print(RB_node *t, void (*print)(void*, RB_colour));
 
+void print(void *a, RB_colour col);
+
 #endif

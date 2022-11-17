@@ -11,6 +11,51 @@ int comparInt(const void *a, const void *b) {
     return *n1 - *n2;
 }
 
+void printTreeInt(AVL_node *tree) {
+    int *n;
+    if (tree) {
+        n = (int*) tree->item;
+        printf("(%d ", *n);
+        printTreeInt(tree->left);
+        printTreeInt(tree->right);
+        printf(") ");
+    }
+    else
+		printf("~ ");
+}
+
+/*
+     Função para calcular a altura de uma árvore binária
+*/
+
+int altura_AVL(AVL_node *raiz){
+    if(raiz == NULL){
+        return -1;
+    }
+    else{
+        int esq = altura_AVL(raiz->left);
+        int dir = altura_AVL(raiz->right);
+        if(esq > dir)
+            return esq + 1;
+        else
+            return dir + 1;
+    }
+}
+
+int altura_RB(RB_node *raiz){
+    if(raiz == NULL){
+        return -1;
+    }
+    else{
+        int esq = altura_RB(raiz->left);
+        int dir = altura_RB(raiz->right);
+        if(esq > dir)
+            return esq + 1;
+        else
+            return dir + 1;
+    }
+}
+
 void printVec(int *vec) {
     printf("[");
     for (int i = 0; i < tam; i++)
@@ -45,7 +90,11 @@ int main()
     preencheAVL(treeAVL, vec);
     preencheRB(treeRB, vec);
 
-    //falta mostrar a altura
+    //RB_print(treeRB->root, print);
+    //printTreeInt(treeAVL->root);
+
+    printf("Altura AVL: %d\n", altura_AVL(treeAVL->root));
+    printf("Altura RB: %d\n", altura_RB(treeRB->root));
 
     return 0;
 }
