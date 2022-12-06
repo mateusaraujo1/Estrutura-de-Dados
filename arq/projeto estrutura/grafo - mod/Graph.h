@@ -24,7 +24,7 @@ void    Graph_removeEdge(Graph *G, vert v, vert w);
 Vertex  Graph_findByLabel(Graph *G, int label);
 //Vertex *Graph_findByValue(Graph *g, void *value, int (*cmp)(void*, void*));
 
-void    Graph_print(Graph *G); //printa o value
+void    Graph_print(Graph *G);
 
 //Vertex **Graph_dfs(Graph *g, void *value, int (*cmp)(void*,void*));
 //Vertex **Graph_bfs(Graph *g, void *value, int (*cmp)(void*,void*));
@@ -32,3 +32,4 @@ void    Graph_print(Graph *G); //printa o value
 //FUNÇÕES ADICIONAIS
 void 	Graph_valueVertex(Graph *G, int label, void *value); //adiciona ou edita o value à um vértice
 void    Graph_printEdge(Graph *G);
+void    Graph_printValue(Graph *G);

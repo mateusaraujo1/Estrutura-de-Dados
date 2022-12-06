@@ -99,12 +99,48 @@ void print(void *a) {
     printf("%s %-5.2f %-5.2f %-5.2f\n", a1->nome, a1->nota[0], a1->nota[1], a1->nota[2]);
 }
 
-void Graph_print(Graph *G) {
+void printName(void *a) {
+   Aluno *a1 = (Aluno*)a;
+   printf("%s", a1->nome);
+}
 
-   for (int i = 0; i < G->numV; ++i)
+void Graph_printValue(Graph *G) {
+
+   for (int i = 0; i < G->numV; ++i){
       print(G->vtx[i].value);
+   }
 
 }
+
+void Graph_print(Graph *G) 
+{
+   int **mat = G->adj;
+   void *v;
+   int i, j;
+
+   for (i = 0; i < G->numV; i++)
+   {
+      v = G->vtx[i].value;
+
+      printf("[");
+      printName(v);
+      printf("]->");
+
+      for (j = 0; j < G->numV; j++)
+      {
+         if (mat[i][j] == 1)
+         {
+            v = G->vtx[j].value;
+            printf("(");
+            printName(v);
+            printf(")->");
+         }
+      }
+      printf("\n");
+   }
+      
+   
+} //print em forma de grafo
 
 //gcc Graph.c && a
 
@@ -136,11 +172,17 @@ int main()
     Graph_printEdge(G);
 
     printf("\nprint dos values\n");
-    Graph_print(G);
+    Graph_printValue(G);
 
     printf("\nBuscando e mostrando o label '1'\n");
     v = Graph_findByLabel(G, 1);
     print(v.value);
+    printName(v.value);
+
+    printf("\n");
+
+    Graph_print(G);
+
 
     Graph_free(G);
 
