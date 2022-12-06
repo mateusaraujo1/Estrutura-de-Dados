@@ -21,7 +21,7 @@ void    Graph_free(Graph *G);
 void    Graph_insertEdge(Graph *G, vert v, vert w);
 void    Graph_removeEdge(Graph *G, vert v, vert w);
 
-//Vertex *Graph_findByLabel(Graph *g, int label);
+Vertex  Graph_findByLabel(Graph *G, int label);
 //Vertex *Graph_findByValue(Graph *g, void *value, int (*cmp)(void*, void*));
 
 void    Graph_print(Graph *G); //printa o value

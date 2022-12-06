@@ -27,7 +27,7 @@ Graph *Graph_alloc(int V) {
       G->vtx[i].label = i;
       G->vtx[i].value = NULL;
    }
-   
+
    return G;
 }
 
@@ -51,11 +51,19 @@ void Graph_insertEdge(Graph *G, vert v, vert w) {
    }
 }
 
+void Graph_valueVertex(Graph *G, int label, void *value) {
+   G->vtx[label].value = value;
+}
+
 void Graph_removeEdge(Graph *G, vert v, vert w) { 
    if (G->adj[v][w] == 1) {
       G->adj[v][w] = 0; 
       G->numA--;
    }
+}
+
+Vertex Graph_findByLabel(Graph *G, int label) {
+   return G->vtx[label];
 }
 
 void Graph_printEdge(Graph *G) {
@@ -100,13 +108,12 @@ void Graph_print(Graph *G) {
 
 //gcc Graph.c && a
 
-void Graph_valueVertex(Graph *G, int label, void *value) {
-   G->vtx[label].value = value;
-}
 
 int main()
 {
     Graph *G = Graph_alloc(4);
+    Vertex v;
+
     Aluno a[4] = {
 		{"Adao", {7.0,  8.0,  9.0}},
 		{"Eva",  {7.5,  10.0, 9.0}},
@@ -125,9 +132,15 @@ int main()
     Graph_valueVertex(G, 2, &a[2]);
     Graph_valueVertex(G, 3, &a[3]);
 
+    printf("matriz de adjacência\n");
     Graph_printEdge(G);
-    printf("\n");
+
+    printf("\nprint dos values\n");
     Graph_print(G);
+
+    printf("\nBuscando e mostrando o label '1'\n");
+    v = Graph_findByLabel(G, 1);
+    print(v.value);
 
     Graph_free(G);
 
