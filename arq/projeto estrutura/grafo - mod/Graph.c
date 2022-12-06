@@ -64,7 +64,7 @@ void Graph_removeEdge(Graph *G, vert v, vert w) {
 
 Vertex Graph_findByLabel(Graph *G, int label) {
    return G->vtx[label];
-}
+} //o seu label é a posição do vértice no vetor
 
 void Graph_printEdge(Graph *G) {
    printf("   ");
@@ -112,6 +112,7 @@ void Graph_printValue(Graph *G) {
 
 }
 
+//print em forma de grafo
 void Graph_print(Graph *G) 
 {
    int **mat = G->adj;
@@ -140,7 +141,7 @@ void Graph_print(Graph *G)
    }
       
    
-} //print em forma de grafo
+} 
 
 //gcc Graph.c && a
 
@@ -162,7 +163,8 @@ int main()
     Graph_insertEdge(G, 1, 2);
     Graph_insertEdge(G, 1, 3);
     Graph_insertEdge(G, 2, 3);
-
+    
+    //escolhe o label do vértice e insere um value nele
     Graph_valueVertex(G, 0, &a[0]);
     Graph_valueVertex(G, 1, &a[1]);
     Graph_valueVertex(G, 2, &a[2]);

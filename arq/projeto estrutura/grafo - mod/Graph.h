@@ -1,7 +1,8 @@
-#define vert int
+#define vert int //só pra deixar mais bonito
 
 typedef struct Graph  Graph;
 typedef struct Vertex Vertex;
+//no caso do projeto, não foi necessário (até agora) criar um tipo Edge, a matriz de adj tá dando conta
 
 struct Vertex {
 	int label;
@@ -9,8 +10,8 @@ struct Vertex {
 };
 
 struct Graph {
-	int numV;
-	int numA;
+	int numV; //número de vértices
+	int numA; //número de arestas
 	int **adj; //matriz de adjacência
 	Vertex *vtx; //vetor dos Vertex
 };
