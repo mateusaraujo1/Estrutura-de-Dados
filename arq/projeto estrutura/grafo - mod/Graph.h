@@ -4,6 +4,11 @@ typedef struct Graph  Graph;
 typedef struct Vertex Vertex;
 //no caso do projeto, não foi necessário (até agora) criar um tipo Edge, a matriz de adj tá dando conta
 
+typedef struct {
+	char nome[10];
+	float nota[3];
+} Aluno;
+
 struct Vertex {
 	int label;
 	void *value;
@@ -23,7 +28,7 @@ void    Graph_insertEdge(Graph *G, vert v, vert w);
 void    Graph_removeEdge(Graph *G, vert v, vert w);
 
 Vertex  Graph_findByLabel(Graph *G, int label); //não tá retornando um Vertex* pois já tá trabalhando com um vetor de Vertex
-//Vertex *Graph_findByValue(Graph *g, void *value, int (*cmp)(void*, void*));
+Vertex  Graph_findByValue(Graph *G, void *value, int (*cmp)(void*, void*));
 
 void    Graph_print(Graph *G);
 

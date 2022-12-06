@@ -34,10 +34,8 @@ Graph *Graph_alloc(int V) {
 void Graph_free(Graph *G) {
    int i;
 
-   for (i = 0; i < G->numV; i++){
+   for (i = 0; i < G->numV; i++)
       free(G->adj[i]);
-      free(G->vtx[i].value);
-   }
 
    free(G->adj);
    free(G->vtx);
@@ -62,9 +60,27 @@ void Graph_removeEdge(Graph *G, vert v, vert w) {
    }
 }
 
+int cmp(void *a, void *b) {
+    Aluno *a1 = (Aluno*)a;
+    char *nome = (char*)b;
+    return strcmp(a1->nome, nome);
+}
+
 Vertex Graph_findByLabel(Graph *G, int label) {
    return G->vtx[label];
 } //o seu label é a posição do vértice no vetor
+
+Vertex Graph_findByValue(Graph *G, void *value, int (*cmp)(void*, void*)) {
+   int i;
+   Vertex val;
+   for (i = 0; i < G->numV; i++)
+   {
+      val = G->vtx[i];
+      if (cmp(val.value, value) == 0)
+         return val;
+   }
+   printf("valor não encontrado\n");
+}
 
 void Graph_printEdge(Graph *G) {
    printf("   ");
@@ -81,17 +97,6 @@ void Graph_printEdge(Graph *G) {
             printf( "[0] ");
       printf( "\n");
    }
-}
-
-typedef struct {
-	char nome[10];
-	float nota[3];
-} Aluno;
-
-int cmp(void *a, void *b) {
-    Aluno *a1 = (Aluno*)a;
-    char *nome = (char*)b;
-    return strcmp(a1->nome, nome);
 }
 
 void print(void *a) {
@@ -180,9 +185,15 @@ int main()
     printf("\nBuscando e mostrando o label '1'\n");
     v = Graph_findByLabel(G, 1);
     print(v.value);
+    
+    char nome[10] = "Caim";
+    printf("\nBuscando o nome e valores de 'Caim'\n");
+    v = Graph_findByValue(G, &nome, cmp);
+    print(v.value);
 
     printf("\n");
-
+    
+    printf("Printando as arestas entre os vértices\n");
     Graph_print(G);
 
 
