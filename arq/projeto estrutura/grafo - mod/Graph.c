@@ -63,19 +63,6 @@ void Graph_printEdge(Graph G) {
    }
 }
 
-void Graph_print(Graph G) {
-   Vertex v;
-   for (int i = 0; i < G->numV; ++i){
-      v = G->vtx[i];
-   }
-}
-
-//gcc Graph.c && a
-
-void Graph_valueVertex(Graph G, int label, void *value) {
-   G->vtx[label].value = value;
-}
-
 typedef struct {
 	char nome[10];
 	float nota[3];
@@ -89,7 +76,20 @@ int cmp(void *a, void *b) {
 
 void print(void *a) {
     Aluno *a1 = (Aluno*)a;
-    printf("%s", a1->nome);
+    printf("%s %-4.2f %-4.2f %-4.2f\n", a1->nome, a1->nota[0], a1->nota[1], a1->nota[2]);
+}
+
+void Graph_print(Graph G) {
+
+   for (int i = 0; i < G->numV; ++i)
+      print(G->vtx[i].value);
+
+}
+
+//gcc Graph.c && a
+
+void Graph_valueVertex(Graph G, int label, void *value) {
+   G->vtx[label].value = value;
 }
 
 int main()
@@ -108,7 +108,13 @@ int main()
     Graph_insertEdge(G, 1, 3);
     Graph_insertEdge(G, 2, 3);
 
+    Graph_valueVertex(G, 0, &a[0]);
+    Graph_valueVertex(G, 1, &a[1]);
+    Graph_valueVertex(G, 2, &a[2]);
+    Graph_valueVertex(G, 3, &a[3]);
+
     Graph_printEdge(G);
+    Graph_print(G);
 
     return 0;
 }
