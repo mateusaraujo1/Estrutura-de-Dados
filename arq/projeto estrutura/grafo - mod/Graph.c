@@ -16,8 +16,8 @@ static int **MATRIXint(int r, int c, int val) {
    return m;
 }
 
-Graph Graph_alloc(int V) { 
-   Graph G = malloc(sizeof *G);
+Graph *Graph_alloc(int V) { 
+   Graph *G = malloc(sizeof *G);
    G->numV = V;
    G->numA = 0;
    G->vtx = malloc(V * sizeof(Vertex));
@@ -31,22 +31,34 @@ Graph Graph_alloc(int V) {
    return G;
 }
 
+void Graph_free(Graph *G) {
+   int i;
 
-void Graph_insertEdge(Graph G, vert v, vert w) { 
+   for (i = 0; i < G->numV; i++){
+      free(G->adj[i]);
+      free(G->vtx[i].value);
+   }
+
+   free(G->adj);
+   free(G->vtx);
+   free(G);
+}
+
+void Graph_insertEdge(Graph *G, vert v, vert w) { 
    if (G->adj[v][w] == 0) {
       G->adj[v][w] = 1; 
       G->numA++;
    }
 }
 
-void Graph_removeEdge(Graph G, vert v, vert w) { 
+void Graph_removeEdge(Graph *G, vert v, vert w) { 
    if (G->adj[v][w] == 1) {
       G->adj[v][w] = 0; 
       G->numA--;
    }
 }
 
-void Graph_printEdge(Graph G) {
+void Graph_printEdge(Graph *G) {
    printf("   ");
    for (vert v = 0; v < G->numV; ++v)
       printf("%2d  ", v);
@@ -76,10 +88,10 @@ int cmp(void *a, void *b) {
 
 void print(void *a) {
     Aluno *a1 = (Aluno*)a;
-    printf("%s %-4.2f %-4.2f %-4.2f\n", a1->nome, a1->nota[0], a1->nota[1], a1->nota[2]);
+    printf("%s %-5.2f %-5.2f %-5.2f\n", a1->nome, a1->nota[0], a1->nota[1], a1->nota[2]);
 }
 
-void Graph_print(Graph G) {
+void Graph_print(Graph *G) {
 
    for (int i = 0; i < G->numV; ++i)
       print(G->vtx[i].value);
@@ -88,13 +100,13 @@ void Graph_print(Graph G) {
 
 //gcc Graph.c && a
 
-void Graph_valueVertex(Graph G, int label, void *value) {
+void Graph_valueVertex(Graph *G, int label, void *value) {
    G->vtx[label].value = value;
 }
 
 int main()
 {
-    Graph G = Graph_alloc(4);
+    Graph *G = Graph_alloc(4);
     Aluno a[4] = {
 		{"Adao", {7.0,  8.0,  9.0}},
 		{"Eva",  {7.5,  10.0, 9.0}},
@@ -114,7 +126,10 @@ int main()
     Graph_valueVertex(G, 3, &a[3]);
 
     Graph_printEdge(G);
+    printf("\n");
     Graph_print(G);
+
+    Graph_free(G);
 
     return 0;
 }
