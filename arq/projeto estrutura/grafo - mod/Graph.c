@@ -3,7 +3,7 @@
 #include <string.h>
 #include "Graph.h"
 
-static int **MATRIXint(int r, int c, int val) { 
+static int **MATRIX(int r, int c, int val) { 
    int **m = malloc(r * sizeof(int *));
 
    for (vert i = 0; i < r; ++i) 
@@ -21,7 +21,7 @@ Graph *Graph_alloc(int V) {
    G->numV = V;
    G->numA = 0;
    G->vtx = malloc(V * sizeof(Vertex));
-   G->adj = MATRIXint(V, V, 0);
+   G->adj = MATRIX(V, V, 0);
 
    for (int i = 0; i < V; i++){
       G->vtx[i].label = i;
@@ -163,6 +163,7 @@ int main()
     Graph_insertEdge(G, 1, 2);
     Graph_insertEdge(G, 1, 3);
     Graph_insertEdge(G, 2, 3);
+    Graph_insertEdge(G, 3, 2);
     
     //escolhe o label do vértice e insere um value nele
     Graph_valueVertex(G, 0, &a[0]);
@@ -179,7 +180,6 @@ int main()
     printf("\nBuscando e mostrando o label '1'\n");
     v = Graph_findByLabel(G, 1);
     print(v.value);
-    printName(v.value);
 
     printf("\n");
 

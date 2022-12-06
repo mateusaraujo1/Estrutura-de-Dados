@@ -1,4 +1,4 @@
-#define vert int //só pra deixar mais bonito
+#define vert int //só pra deixar mais bonito, eu acho
 
 typedef struct Graph  Graph;
 typedef struct Vertex Vertex;
@@ -22,13 +22,15 @@ void    Graph_free(Graph *G);
 void    Graph_insertEdge(Graph *G, vert v, vert w);
 void    Graph_removeEdge(Graph *G, vert v, vert w);
 
-Vertex  Graph_findByLabel(Graph *G, int label);
+Vertex  Graph_findByLabel(Graph *G, int label); //não tá retornando um Vertex* pois já tá trabalhando com um vetor de Vertex
 //Vertex *Graph_findByValue(Graph *g, void *value, int (*cmp)(void*, void*));
 
 void    Graph_print(Graph *G);
 
 //Vertex **Graph_dfs(Graph *g, void *value, int (*cmp)(void*,void*));
 //Vertex **Graph_bfs(Graph *g, void *value, int (*cmp)(void*,void*));
+
+//funções que estão comentadas são as que faltam serem implementadas
 
 //FUNÇÕES ADICIONAIS
 void 	Graph_valueVertex(Graph *G, int label, void *value); //adiciona ou edita o value à um vértice
