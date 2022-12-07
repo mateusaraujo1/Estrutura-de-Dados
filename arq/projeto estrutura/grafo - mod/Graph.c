@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Graph.h"
+#include "Queue.h"
 
 static int **MATRIX(int r, int c, int val) { 
    int **m = malloc(r * sizeof(int *));
@@ -169,8 +170,9 @@ void dfs(Graph *G, Vertex v, Vertex *path, int *count) {
    }
 }
 
-Vertex *Graph_dfs(Graph *G, Vertex v)
+Vertex *Graph_dfs(Graph *G, void *value, int (*cmp)(void*,void*))
 {
+   Vertex v = Graph_findByValue(G, value, cmp);
    Vertex *path = calloc(G->numV, sizeof(Vertex));
    int count = 0;
 
@@ -179,6 +181,18 @@ Vertex *Graph_dfs(Graph *G, Vertex v)
 
    dfs(G, v, path, &count);
    
+   return path;
+}
+
+Vertex *Graph_bfs(Graph *G, void *value, int (*cmp)(void*,void*)) {
+   Vertex v = Graph_findByValue(G, value, cmp);
+   Vertex *path = calloc(G->numV, sizeof(Vertex));
+   Queue *q = NULL;
+   int count = 0;
+
+   for (int i = 0; i < G->numV; i++)
+      G->vtx[i].visited = 0;
+
    return path;
 }
 
@@ -231,8 +245,8 @@ int main()
    printf("Printando as arestas entre os vértices\n");
    Graph_print(G);
 
-   printf("\nBusca profunda\n");
-   path = Graph_dfs(G, v); //vértice do Caim no parâmetro
+   printf("\nBusca profunda, iniciando pelo Caim\n");
+   path = Graph_dfs(G, &nome, cmp);
 
    print(path[0].value);
    print(path[1].value);
