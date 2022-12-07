@@ -36,8 +36,6 @@ void    Graph_print(Graph *G);
 Vertex  *Graph_dfs(Graph *G, void *value, int (*cmp)(void*,void*));
 Vertex  *Graph_bfs(Graph *G, void *value, int (*cmp)(void*,void*));
 
-//funções que estão comentadas são as que faltam serem implementadas
-
 //FUNÇÕES ADICIONAIS
 void 	Graph_valueVertex(Graph *G, int label, void *value); //adiciona ou edita o value à um vértice
 void    Graph_printEdge(Graph *G);

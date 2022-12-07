@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Graph.h"
-#include "Queue.h"
 
 static int **MATRIX(int r, int c, int val) { 
    int **m = malloc(r * sizeof(int *));
@@ -184,19 +183,54 @@ Vertex *Graph_dfs(Graph *G, void *value, int (*cmp)(void*,void*))
    return path;
 }
 
+void bfs(Graph *G, Vertex v, Vertex *path, int *count) {
+   int i;
+   Vertex *pathLocal = calloc(G->numV, sizeof(Vertex));
+   int countLocal = 0;
+
+   for (i = 0; i < G->numV; i++)
+   {
+      if (G->adj[v.label][i] == 1) 
+      {
+         if (G->vtx[i].visited == 0)
+         {
+            G->vtx[i].visited = 1;
+            //print(G->vtx[i].value);
+            *count += 1;
+            path[*count] = G->vtx[i];
+
+            pathLocal[countLocal] = G->vtx[i];
+            countLocal++;
+         }
+      }
+      if (G->numV == (*count+1))
+         break;
+   }
+   
+   for (i = 0; i < countLocal; i++)
+   {
+      bfs(G, pathLocal[i], path, count);
+   }
+}
+
 Vertex *Graph_bfs(Graph *G, void *value, int (*cmp)(void*,void*)) {
    Vertex v = Graph_findByValue(G, value, cmp);
    Vertex *path = calloc(G->numV, sizeof(Vertex));
-   Queue *q = NULL;
    int count = 0;
 
    for (int i = 0; i < G->numV; i++)
       G->vtx[i].visited = 0;
 
+   //v.visited = 1;
+   G->vtx[v.label].visited = 1;
+   path[count] = v;
+
+   bfs(G, v, path, &count);
+   
    return path;
 }
 
-//gcc Graph.c && a
+//gcc Graph.c Queue.c -c && gcc Graph.o Queue.o && a
 
 int main()
 {
@@ -211,7 +245,6 @@ int main()
 		{"Abel", {2.0,  6.0,  4.5}}
 	};
 
-   Graph_insertEdge(G, 0, 1);
    Graph_insertEdge(G, 0, 2);
    Graph_insertEdge(G, 1, 2);
    Graph_insertEdge(G, 1, 3);
@@ -235,7 +268,7 @@ int main()
    v = Graph_findByLabel(G, 1);
    print(v.value);
     
-   char nome[10] = "Caim";
+   char nome[10] = "Eva";
    printf("\nBuscando o nome e valores de '%s'\n", nome);
    v = Graph_findByValue(G, &nome, cmp);
    print(v.value);
@@ -245,8 +278,17 @@ int main()
    printf("Printando as arestas entre os vértices\n");
    Graph_print(G);
 
-   printf("\nBusca profunda, iniciando pelo Caim\n");
+   printf("\nBusca em profundidade, iniciando por '%s'\n", nome);
    path = Graph_dfs(G, &nome, cmp);
+
+   print(path[0].value);
+   print(path[1].value);
+   print(path[2].value);
+   print(path[3].value);
+   
+
+   printf("\nBusca em largura, iniciando por '%s'\n", nome);
+   path = Graph_bfs(G, &nome, cmp);
 
    print(path[0].value);
    print(path[1].value);
