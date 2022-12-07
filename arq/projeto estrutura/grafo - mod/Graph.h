@@ -11,6 +11,7 @@ typedef struct {
 
 struct Vertex {
 	int label;
+	int visited;
 	void *value;
 };
 
@@ -32,8 +33,8 @@ Vertex  Graph_findByValue(Graph *G, void *value, int (*cmp)(void*, void*));
 
 void    Graph_print(Graph *G);
 
-//Vertex **Graph_dfs(Graph *g, void *value, int (*cmp)(void*,void*));
-//Vertex **Graph_bfs(Graph *g, void *value, int (*cmp)(void*,void*));
+Vertex  *Graph_dfs(Graph *G, Vertex v);
+//Vertex **Graph_bfs(Graph *G, void *value, int (*cmp)(void*,void*));
 
 //funções que estão comentadas são as que faltam serem implementadas
 

@@ -25,6 +25,7 @@ Graph *Graph_alloc(int V) {
 
    for (int i = 0; i < V; i++){
       G->vtx[i].label = i;
+      G->vtx[i].visited = 0;
       G->vtx[i].value = NULL;
    }
 
@@ -144,60 +145,101 @@ void Graph_print(Graph *G)
       }
       printf("\n");
    }
-      
+}
+
+void dfs(Graph *G, Vertex v, Vertex *path, int *count) {
+   path[*count] = v;
+
+   int i;
+
+   for (i = 0; i < G->numV; i++)
+   {
+      if (G->adj[v.label][i] == 1) 
+      {
+         if (G->vtx[i].visited == 0)
+         {
+            G->vtx[i].visited = 1;
+            //print(G->vtx[i].value);
+            *count += 1;
+            dfs(G, G->vtx[i], path, count);
+         }
+      }
+      if (G->numV == (*count+1))
+         break;
+   }
+}
+
+Vertex *Graph_dfs(Graph *G, Vertex v)
+{
+   Vertex *path = calloc(G->numV, sizeof(Vertex));
+   int count = 0;
+
+   for (int i = 0; i < G->numV; i++)
+      G->vtx[i].visited = 0;
+
+   dfs(G, v, path, &count);
    
-} 
+   return path;
+}
 
 //gcc Graph.c && a
 
-
 int main()
 {
-    Graph *G = Graph_alloc(4);
-    Vertex v;
+   Graph *G = Graph_alloc(4);
+   Vertex *path = calloc(G->numV, sizeof(Vertex));
+   Vertex v;
 
-    Aluno a[4] = {
+   Aluno a[4] = {
 		{"Adao", {7.0,  8.0,  9.0}},
 		{"Eva",  {7.5,  10.0, 9.0}},
 		{"Caim", {5.0,  8.0,  9.0}},
 		{"Abel", {2.0,  6.0,  4.5}}
 	};
 
-    Graph_insertEdge(G, 0, 1);
-    Graph_insertEdge(G, 0, 2);
-    Graph_insertEdge(G, 1, 2);
-    Graph_insertEdge(G, 1, 3);
-    Graph_insertEdge(G, 2, 3);
-    Graph_insertEdge(G, 3, 2);
+   Graph_insertEdge(G, 0, 1);
+   Graph_insertEdge(G, 0, 2);
+   Graph_insertEdge(G, 1, 2);
+   Graph_insertEdge(G, 1, 3);
+   Graph_insertEdge(G, 2, 3);
+   Graph_insertEdge(G, 3, 2);
+   Graph_insertEdge(G, 3, 0);
     
-    //escolhe o label do vértice e insere um value nele
-    Graph_valueVertex(G, 0, &a[0]);
-    Graph_valueVertex(G, 1, &a[1]);
-    Graph_valueVertex(G, 2, &a[2]);
-    Graph_valueVertex(G, 3, &a[3]);
+   //escolhe o label do vértice e insere um value nele
+   Graph_valueVertex(G, 0, &a[0]);
+   Graph_valueVertex(G, 1, &a[1]);
+   Graph_valueVertex(G, 2, &a[2]);
+   Graph_valueVertex(G, 3, &a[3]);
 
-    printf("matriz de adjacência\n");
-    Graph_printEdge(G);
+   printf("matriz de adjacência\n");
+   Graph_printEdge(G);
 
-    printf("\nprint dos values\n");
-    Graph_printValue(G);
+   printf("\nprint dos values\n");
+   Graph_printValue(G);
 
-    printf("\nBuscando e mostrando o label '1'\n");
-    v = Graph_findByLabel(G, 1);
-    print(v.value);
+   printf("\nBuscando e mostrando o label '1'\n");
+   v = Graph_findByLabel(G, 1);
+   print(v.value);
     
-    char nome[10] = "Caim";
-    printf("\nBuscando o nome e valores de 'Caim'\n");
-    v = Graph_findByValue(G, &nome, cmp);
-    print(v.value);
+   char nome[10] = "Caim";
+   printf("\nBuscando o nome e valores de '%s'\n", nome);
+   v = Graph_findByValue(G, &nome, cmp);
+   print(v.value);
 
-    printf("\n");
+   printf("\n");
     
-    printf("Printando as arestas entre os vértices\n");
-    Graph_print(G);
+   printf("Printando as arestas entre os vértices\n");
+   Graph_print(G);
 
+   printf("\nBusca profunda\n");
+   path = Graph_dfs(G, v); //vértice do Caim no parâmetro
 
-    Graph_free(G);
+   print(path[0].value);
+   print(path[1].value);
+   print(path[2].value);
+   print(path[3].value);
 
-    return 0;
+   Graph_free(G);
+
+   return 0;
 }
