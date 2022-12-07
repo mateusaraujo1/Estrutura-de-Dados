@@ -178,6 +178,7 @@ Vertex *Graph_dfs(Graph *G, void *value, int (*cmp)(void*,void*))
    for (int i = 0; i < G->numV; i++)
       G->vtx[i].visited = 0;
 
+   G->vtx[v.label].visited = 1;
    dfs(G, v, path, &count);
    
    return path;
@@ -234,29 +235,34 @@ Vertex *Graph_bfs(Graph *G, void *value, int (*cmp)(void*,void*)) {
 
 int main()
 {
-   Graph *G = Graph_alloc(4);
+   Graph *G = Graph_alloc(5);
    Vertex *path = calloc(G->numV, sizeof(Vertex));
    Vertex v;
 
-   Aluno a[4] = {
-		{"Adao", {7.0,  8.0,  9.0}},
-		{"Eva",  {7.5,  10.0, 9.0}},
-		{"Caim", {5.0,  8.0,  9.0}},
-		{"Abel", {2.0,  6.0,  4.5}}
+   Aluno a[5] = {
+		{"Adao",   {7.0,  8.0,  9.0}},
+		{"Eva",    {7.5,  10.0, 9.0}},
+		{"Caim",   {5.0,  8.0,  9.0}},
+		{"Abel",   {2.0,  6.0,  4.5}},
+      {"Lilith", {6.5,  8.0,  8.5}}
 	};
 
    Graph_insertEdge(G, 0, 2);
    Graph_insertEdge(G, 1, 2);
-   Graph_insertEdge(G, 1, 3);
+   Graph_insertEdge(G, 1, 4);
+   Graph_insertEdge(G, 2, 1);
    Graph_insertEdge(G, 2, 3);
-   Graph_insertEdge(G, 3, 2);
    Graph_insertEdge(G, 3, 0);
+   Graph_insertEdge(G, 3, 2);
+   Graph_insertEdge(G, 3, 4);
+   Graph_insertEdge(G, 4, 1);
     
    //escolhe o label do vértice e insere um value nele
    Graph_valueVertex(G, 0, &a[0]);
    Graph_valueVertex(G, 1, &a[1]);
    Graph_valueVertex(G, 2, &a[2]);
    Graph_valueVertex(G, 3, &a[3]);
+   Graph_valueVertex(G, 4, &a[4]);
 
    printf("matriz de adjacência\n");
    Graph_printEdge(G);
@@ -268,7 +274,7 @@ int main()
    v = Graph_findByLabel(G, 1);
    print(v.value);
     
-   char nome[10] = "Eva";
+   char nome[10] = "Caim";
    printf("\nBuscando o nome e valores de '%s'\n", nome);
    v = Graph_findByValue(G, &nome, cmp);
    print(v.value);
@@ -285,15 +291,18 @@ int main()
    print(path[1].value);
    print(path[2].value);
    print(path[3].value);
+   print(path[4].value);
    
 
    printf("\nBusca em largura, iniciando por '%s'\n", nome);
-   path = Graph_bfs(G, &nome, cmp);
+   Vertex *path2 = calloc(G->numV, sizeof(Vertex));
+   path2 = Graph_bfs(G, &nome, cmp);
 
-   print(path[0].value);
-   print(path[1].value);
-   print(path[2].value);
-   print(path[3].value);
+   print(path2[0].value);
+   print(path2[1].value);
+   print(path2[2].value);
+   print(path2[3].value);
+   print(path2[4].value);
 
    Graph_free(G);
 
